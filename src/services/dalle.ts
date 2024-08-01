@@ -10,27 +10,24 @@ export async function generateContent(prompt: string): Promise<BaseResponse<stri
     const { data } = await OpenAiClient.images.generate({
       model: 'dall-e-3',
       prompt,
-      response_format: 'url',
+      response_format: 'b64_json',
       quality: 'hd',
       size: '1024x1024',
     })
 
     const response: BaseResponse<string> = {
-      data: data[0].url as string,
+      data: data[0].b64_json as string,
       isSuccess: true,
-      message: 'Generation successful!',
+      message: 'Generación exitosa!',
     }
 
     return response
 
-  } catch (error) {
-
-    console.log(error)
-    
+  } catch (error) {    
     return {
       data: '',
       isSuccess: false,
-      message: 'Generation failed!'
+      message: `Ocurrió algo inesperado!, Error: ${error}`,
     }
   }
 }
